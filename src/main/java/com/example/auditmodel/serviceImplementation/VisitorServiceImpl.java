@@ -3,6 +3,7 @@ package com.example.auditmodel.serviceImplementation;
 import com.example.auditmodel.entity.Visitor;
 import com.example.auditmodel.repository.VisitorRepository;
 import com.example.auditmodel.service.VisitorService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class VisitorServiceImpl implements VisitorService {
 
     @Override
     @Scheduled(cron = "0 * * * * ?")
+    @Transactional
     public void autoTimeoutVisitorsAtMidnight() {
         List<Visitor> activeVisitors = visitorRepository.findBySignOutTimeIsNull();
         LocalDateTime now = LocalDateTime.now();
